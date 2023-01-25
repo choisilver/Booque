@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+    xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+    
+<head>
+
+
+<!-- 지혜 / 상단 검정바 고정, 좌측 사이드바는 유동적인 버전 -->
+    
+    <meta charset="utf-8" />
+    
+    <!-- 반응형 웹 -->
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    
+    <title>BOOQUE</title>
+    
+    <!-- 탭 아이콘 -->
+    <link rel="icon" type="image/x-icon" th:href="@{ /images/booque_logo.jpg }" />
+    
+    <!-- CSS -->
+    <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    
+    <!-- 글씨 폰트 -->
+    <style>
+    .w3-sidebar a {
+        font-family: 'NanumBarunGothic';
+    }
+    
+    body, h1, h2, h3, h4, h5, h6, .w3-wide {
+        font-family: 'NanumBarunGothic';
+    }
+    </style>
+
+</head>
+
+<body class="w3-content" style="max-width:2000px">
+
+<!-- 상단 메뉴 바(검은색) -->
+<header id="top-menu-full-screen" class="w3-bar w3-top w3-hide-small w3-hide-medium w3-black w3-xlarge">
+  <a href="javascript:void(0)" class="w3-bar-item w3-button w3-padding-24 w3-left" onclick="w3_open()"  style="margin-left:50px;"><i class="fa fa-bars"></i></a>
+    <a href="#" class="w3-bar-item w3-padding-24 w3-wide" id="logo-top" style="text-decoration-line: none; color:white; padding-left:60px;">
+    BOOQUE 
+    </a>
+    <a href="#" class="w3-bar-item w3-button w3-right" id="btnSignIn" style="font-size:medium; margin-top:25px; margin-right:50px;">회원가입</a>
+    <a href="#" class="w3-bar-item w3-button w3-right" id="btnSignUp" style="font-size:medium; margin-top:25px; margin-right:20px;">로그인</a>
+</header>
+
+<!-- 사이드바 -->
+<nav class="w3-bar-block w3-white w3-collapse w3-top" style="z-index:3;width:300px; height:100%; display:none;" id="mySidebar">
+  <div class="w3-container w3-display-container w3-padding-16">
+    <i onclick="w3_close()" class="fa fa-remove w3-button w3-display-topright"></i>
+    
+    <!-- 로고 이미지 -->
+    <a href="#" id="logo-side" style="margin-top: 5px;">
+    <img src="/images/booque_logo.jpg" width="120px" />
+    </a>
+    
+  </div>
+  <div class="w3-large w3-text-grey" style="padding-top: 40px; font-weight:bold">
+  
+  <a onclick="AccFunc1()" href="javascript:void(0)" class="w3-button w3-block w3-white w3-left-align" id="myBtn1">국내도서<i class = "fa fa-caret-down"></i> </a>
+  <div id="Acc1" class="w3-bar-block w3-hide w3-padding-large w3-medium">
+  <a href="#" class="w3-bar-item w3-button w3-light-grey">
+  <i class="fa fa-caret-right w3-margin-right"></i>소설</a>
+  <a href="#" class="w3-bar-item w3-button">경제/경영</a>
+  <a href="#" class="w3-bar-item w3-button">자기계발</a>
+  <a href="#" class="w3-bar-item w3-button">인문</a>
+  <a href="#" class="w3-bar-item w3-button">기타 등등등</a>
+  </div>
+  
+  <a onclick="AccFunc2()" href="javascript:void(0)" class="w3-button w3-block w3-white w3-left-align" id="myBtn2">외국도서<i class = "fa fa-caret-down"></i> </a>
+  <div id="Acc2" class="w3-bar-block w3-hide w3-padding-large w3-medium">
+  <a href="#" class="w3-bar-item w3-button w3-light-grey">
+  <i class="fa fa-caret-right w3-margin-right"></i>소설</a>
+  <a href="#" class="w3-bar-item w3-button">인문</a>
+  <a href="#" class="w3-bar-item w3-button">경제/경영</a>
+  <a href="#" class="w3-bar-item w3-button">에세이</a>
+  <a href="#" class="w3-bar-item w3-button">기타 등등등</a>
+  </div>
+  
+  <br/>
+  <br/>
+  
+    <!-- 로그인하지 않은 상태 -->
+    <a href="#" id="btnSignIn-side" class="w3-bar-item w3-button w3-medium">로그인</a>
+    <a href="#" id="btnSignUp-side" class="w3-bar-item w3-button w3-medium">회원가입</a>
+    
+    <br/>
+    
+    <!-- 로그인한 상태 -->
+    <a href="#" id="btnMyPage" class="w3-bar-item w3-button w3-medium">마이페이지</a>
+    <a href="#" id="btnSignOut" class="w3-bar-item w3-button w3-medium">로그아웃</a>
+    
+    
+  </div>
+</nav> <!-- 사이드바 end -->
+
+
+
+
+<!-- 작은 화면(좁은 너비)에서의 상단 메뉴 바(검은색) -->
+<header id="top-menu-small-screen" class="w3-bar w3-top w3-hide-large w3-black w3-xlarge">
+  <a href="javascript:void(0)" class="w3-bar-item w3-button w3-padding-24 w3-left" onclick="w3_open()"><i class="fa fa-bars"></i></a>
+    <a href="#" class="w3-bar-item w3-padding-24 w3-wide" id="logo-top" style="text-decoration-line: none; color:white;"> BOOQUE </a>
+    <a href="#" class="w3-bar-item w3-button w3-right" id="btnSignIn" style="font-size:medium; margin-top:25px; margin-right:10px;">회원가입</a>
+    <a href="#" class="w3-bar-item w3-button w3-right" id="btnSignUp" style="font-size:medium; margin-top:25px;">로그인</a>
+</header>
+
+<!-- Overlay effect when opening sidebar on small screens -->
+<div class="w3-overlay w3-hide-large" onclick="w3_close()" style="cursor:pointer" title="close side menu" id="myOverlay"></div>
+
+<!-- !PAGE CONTENT! -->
+<div class="w3-main" style="margin-left:250px">
+
+  <!-- Push down content on small screens -->
+  <div class="w3-hide-large" style="margin-top:83px"></div>
+  
+  <header class="w3-container w3-xlarge" style="margin-top:120px; margin-bottom:40px;">
+    <p class="w3-left" id="title-menu"><b>국내도서</b></p>
+    <p class="w3-right">
+    
+      <!-- 검색어 입력 창 -->
+        <input type="text" id="keyword" />
+      <!-- 검색 버튼 -->
+      <a href="#" style="color:black; margin-right:40px; margin-left:20px;"><i class="fa fa-search" id="btnSearch"></i></a>  
+      <!-- 장바구니 버튼 -->
+      <a href="#" style="color:black; margin-right:40px;"><i class="fa fa-shopping-cart w3-margin-right" id="btnCart"></i></a>
+       </p>
+  </header>
+  
+  <!-- Main Contents 넣는 곳 -->
+    <div class="container-fluid" layout:fragment = "content">
+                    
+    </div>
+    
+</div>
+
+
+
+<!--/* footer.html fragment(HTML 조각)를 삽입  */-->
+    <div th:replace="fragments/footer :: footer"></div>
+    <!-- (src/main/resources/templates/)  fragments 폴더 아래의 footer.html 파일 안의 footer 부분으로 여기를 대체 -->
+
+
+
+
+<!-- Home에 사용되는 JavaScript -->
+<script th:src="@{ /js/home.js }"></script>
+  
+
+</body>
+
+</html>

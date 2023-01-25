@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+    xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+    layout:decorate="~{ layout/layout2 }">
+<div layout:fragment="content" align ="center">
+<head>
+<meta charset="UTF-8">
+<link
+    href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css"
+    rel="stylesheet"
+    integrity="sha384-Zenh87qX5JnK2Jl0vWa8Ck2rdkQ2Bzep5IDxbcnCeuOxjzrPF/et3URy9Bv1WTRi"
+    crossorigin="anonymous">
+<!-- include libraries(jQuery, bootstrap) -->
+<link
+    href="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css"
+    rel="stylesheet">
+<script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+<script
+    src="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+<!-- include summernote css/js -->
+   <link
+    href="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote.min.css"
+    rel="stylesheet">
+   <script
+    src="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote.min.js"></script>
+ </head>
+
+    
+<!--/* layout/basic-layout.html 파일의 "content" 레이아웃 fragment를 채워 줄 내용 */-->
+
+    <hr/>
+    <div class="container" style="width:100%; padding-right:150px;" > <!-- container-fluid : START -->
+
+
+    <div>
+        <table style="border-color: white;" width= "100%">
+            <tr>
+              <td width="20%" style=" vertical-align: top; border: 1px solid #DCDCDC;"> 
+               <div class="card" align="center" style="margin:20px;"><!-- 프로필  -->
+                 <div>
+                   <a href=""> 
+                     <img src="/images/루피.png"  width="200" height="280" class="img-fluid rounded-start">
+                   </a>
+                 </div>
+                 <br/>
+                 <div style="  padding:10px; text-align: left;">
+                   <p><strong>루피 (username)</strong></p>
+                   <p>블로그 한 줄 소개</p>
+                   <p></p>
+                 </div>
+               </div><!-- 프로필 끝 -->  
+               <hr/>
+              <div align="center"><a href="/post/list">글 전체 목록</a></div>
+              <div style="font-size: 12px; margin: 5px;" align="center"> 오늘 3  Total 256</div>
+              </td>
+  
+  
+            <!-- 오른쪽 -->              
+              <td width="80%">
+                <div style="font-size:15px; font-weight:bold; background-color: #FFFFF0; border-top:2px solid black; border-bottom:2px solid black; margin-left:50px; margin-bottom:30px; height: 50px;" align="right"> 
+                <br/> 포스트 작성 페이지&nbsp;&nbsp;
+                </div>
+              
+              <div class="card" style=" border: 1px solid #DCDCDC; padding-top:15px;  margin-left: 50px;"><!-- 전체 card -->
+                <table>
+                <tr>
+                <td>  
+              
+               <div class="card" style="border-color:white; padding: 20px;"><!-- 도서카드(가로버전) START -->
+                 <table width= "100%">
+                  <tr>
+                     <td width= "20%">
+                       <a th:href="@{ /detail?id={bookId} (bookId = ${ book.bookId })}"><img th:src="${ book.bookImage }" width="150" height="180" class="img-fluid rounded-start"></a>
+                     </td>
+                     <td width="63%">
+                      <table style="margin-left: 20px;">
+                      
+                      <tr>
+                        <td th:text= "${ book.bookName }" style="font-size: 18px; font-weight: bold;"></td>
+                      </tr>
+                      <tr>
+                        <td th:text="${ book.author }"></td>
+                        <td th:text="${ book.publisher +'&nbsp;&nbsp;|&nbsp;&nbsp;' }"></td>
+                        <td th:text="${ book.publishedDate }"></td>
+                      </tr>
+                     <tr>
+                        <td th:text="${ book.prices +'원' }"style="font-size: 20px; font-weight: bold;"></td>
+                        
+                      </tr>
+                       <tr><td>판매지수</td></tr>
+                      <tr>
+                        <td><span><a href="">회원리뷰</a></span> &nbsp;&nbsp;★★★★☆ (8.0)</td>
+                      </tr>
+                      <tr> 
+                        <td>오늘 주문하면 내일 도착</td>
+                      </tr>
+                     
+                    </table>
+                    </td>
+                    <td width= "17%">
+                   <button style="margin-left: 30px; background-color:#DCDCDC;" class="btn">카트 담기</button>
+                   </td>
+                  </tr>
+                  </table>
+                  </div>
+                <!-- 도서카드(가로버전) END -->
+              
+             
+                  <tr>
+                  <td>
+                     <div class="card" style="border-color:white; margin-top: 10px; padding: 10px;" ><!-- 글 작성 폼 -->
+                   <form method="post" style="border-top: 1px solid #DCDCDC;">
+                     <div style="margin: 12px;">
+                     <input type="hidden" name="bookId" th:value="${ book.bookId }" readonly />
+                      <input id="title"  style="width: 70%;"
+                           type="text" name="title" placeholder="제목을 입력하세요!" required autofocus />
+                     <input style="margin-left:30px; width:25%;" type="text" id="postWriter" name="postWriter" placeholder="유저네임" required />
+                     </div>
+                     <div  class="container form-control" style="width:100%; height:370px; border-color: white;">
+                       <textarea class="summernote" id="postContent"  type="text" style="border-color: white; width:100%; height: 100%;"
+                                        name="postContent"
+                            placeholder="내용을 입력하새요!"></textarea>
+                     </div>
+                     <div style="margin: 12px;">
+                      <input style="width:80%;"  id="myScore" 
+                           type="number" name="myScore" required placeholder="별점" />
+                           <input type="submit" style="margin-left: 70px; background-color: #DCDCDC; " class="btn" value="작성완료">
+                     </div>
+                  </form>
+                   </div>      
+           </td></tr>
+        </table>
+        </div>
+        
+        
+              </td><!-- 전체 카드 끝 -->
+            </tr>
+        </table>
+    </div>
+    </div> <!-- container-fluid : END -->
+    <hr/>
+
+
+    
+<!-- summernote -->
+  <script>
+ $('.summernote').summernote({
+    width:830,
+      height: 300,
+      lang: "ko-KR"
+    }); </script>
+    
+  </div><!-- layout:fragment="content" : END -->
+
+</html>

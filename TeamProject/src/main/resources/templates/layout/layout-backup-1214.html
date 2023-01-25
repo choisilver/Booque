@@ -1,0 +1,541 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+    xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+    xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
+
+<head>
+
+<!-- 지혜 / 상단 검정바 고정, 좌측 사이드바는 상단바의 밑에서 열고닫을 수 있게 함 -->
+    
+    <meta charset="utf-8" />
+    
+    <!-- 반응형 웹 -->
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    
+    <title>BOOQUE</title>
+    
+    <link
+        href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css"
+        rel="stylesheet"
+        integrity="sha384-Zenh87qX5JnK2Jl0vWa8Ck2rdkQ2Bzep5IDxbcnCeuOxjzrPF/et3URy9Bv1WTRi"
+        crossorigin="anonymous" />
+    
+    <!-- 탭 아이콘 -->
+    <link rel="icon" type="image/x-icon" th:href="@{ /images/booque_logo.jpg }" />
+    
+    <!-- CSS -->
+    <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    
+    
+    
+    <!-- 글씨 폰트 -->
+    <style>
+    * {
+        font-family: 'NanumBarunGothic';
+    }
+    </style>
+
+</head>
+
+<body class="w3-content" style="max-width:2000px">
+
+
+
+
+
+<!-- 정혁이가 작업한 Modal 부분 -->
+<!-- Modal -->
+        <!-- Button trigger modal -->
+        <button type="button" class="btn btn-primary"
+            data-bs-toggle="modal" data-bs-target="#staticBackdrop">
+            로그인</button>
+
+        <!-- Modal -->
+        <!--
+        <div class="modal fade" id="staticBackdrop"
+            data-bs-backdrop="static" data-bs-keyboard="false"
+            tabindex="-1" aria-labelledby="staticBackdropLabel"
+            aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h1 class="modal-title fs-5"
+                            id="staticBackdropLabel">로그인 페이지</h1>
+                        <button type="button" class="btn-close"
+                            data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="my-2">
+                            <form id="loginForm" action="./user/signin"
+                                method="post">
+                                <div class="my-2">
+                                    <label for="signinUsername">로그인
+                                        아이디</label> <input type="text"
+                                        id="signinUsername"
+                                        name="username"
+                                        class="form-control"
+                                        placeholder="아이디" required
+                                        autofocus />
+                                    <!-- id= document.parameter로 찾을라고 name= request parameter보낼라고 -->
+                                    <!-- 
+                                </div>
+
+                                <div class="my-2">
+                                    <label for="signinUsername">비밀번호</label>
+                                    <input type="password"
+                                        id="signinPassword"
+                                        name="password"
+                                        class="form-control"
+                                        placeholder="비밀번호" required />
+                                </div>
+                            </form>
+                        </div>
+                        <div>
+                            <h6 style="color: graytext;">아이디 / 비밀번호
+                                찾기</h6>
+                            <!-- TODO // -->
+                            <!-- 
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary"
+                            data-bs-dismiss="modal">취소</button>
+                        <button type="submit" id="signinSubmit"
+                            class="btn btn-primary"
+                            onclick="sendForm('login')">로그인</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- // Modal //-->
+        
+
+        <!-- Modal 2 -->
+        <div class="modal fade" id="exampleModalToggle"
+            aria-hidden="true" aria-labelledby="exampleModalToggleLabel"
+            tabindex="-1" data-bs-backdrop="static"
+            data-bs-keyboard="false">
+            <div class="modal-dialog modal-dialog-centered">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h1 class="modal-title fs-5"
+                            id="exampleModalToggleLabel">회원가입 페이지</h1>
+                        <button type="button" class="btn-close"
+                            data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <form method="post">
+                            <div class="input-box my-2">
+                                <label for="signupUsername"
+                                    class="input-label">아이디</label> <input
+                                    type="text" id="signupUsername"
+                                    name="signupUsername"
+                                    class="input-item form-control"
+                                    placeholder="아이디" autofocus
+                                    onchange="checkValue(this);">
+                            </div>
+                            <div class="my-2 d-none" id="nameok">
+                                <!-- d = display. 화면에 보여주지 않겠다. -->
+                                <p class="text-success">사용할 수 있는 아이디</p>
+                            </div>
+                            <div class="my-2 d-none" id="namenok">
+                                <!-- d = display. 화면에 보여주지 않겠다. -->
+                                <p class="text-danger">사용할 수 없는 아이디</p>
+                            </div>
+                            <div class="input-box my-2">
+                                <label for="signupPassword"
+                                    class="input-label">비밀번호</label> <input
+                                    type="password" id="signupPassword"
+                                    name="signupPassword"
+                                    class="input-item form-control"
+                                    placeholder="비밀번호"
+                                    onchange="checkValue(this);">
+                            </div>
+                            <div class="input-box my-2">
+                                <label for="signupEmail"
+                                    class="input-label">이메일</label> <input
+                                    type="email" id="signupEmail"
+                                    name="signupEmail"
+                                    class="input-item form-control"
+                                    placeholder="이메일"
+                                    onchange="checkValue(this);">
+                            </div>
+                            <div class="my-2 d-none" id="emailok">
+                                <!-- d = display. 화면에 보여주지 않겠다. -->
+                                <p class="text-success">사용할 수 있는 이메일</p>
+                            </div>
+                            <div class="my-2 d-none" id="emailnok">
+                                <!-- d = display. 화면에 보여주지 않겠다. -->
+                                <p class="text-danger">사용할 수 없는 이메일</p>
+                            </div>
+                            <div class="input-box my-2">
+                                <label for="signupNickname"
+                                    class="input-label">닉네임</label> <input
+                                    type="text" id="signupNickname"
+                                    name="signupNickname"
+                                    class="input-item form-control"
+                                    placeholder="닉네임"
+                                    onchange="checkValue(this);">
+                            </div>
+                            <div class="my-2 d-none" id="nickok">
+                                <!-- d = display. 화면에 보여주지 않겠다. -->
+                                <p class="text-success">사용할 수 있는 닉네임</p>
+                            </div>
+                            <div class="my-2 d-none" id="nicknok">
+                                <!-- d = display. 화면에 보여주지 않겠다. -->
+                                <p class="text-danger">사용할 수 없는 닉네임</p>
+                            </div>
+                            <div class="input-box my-2">
+                                <label for="signupName"
+                                    class="input-label">실명</label> <input
+                                    type="text" id="signupName"
+                                    name="signupName"
+                                    class="input-item form-control"
+                                    placeholder="실명"
+                                    onchange="checkValue(this);">
+                            </div>
+                            <div class="input-box my-2">
+                                <label for="signupPhone"
+                                    class="input-label">핸드폰번호</label> <input
+                                    type="text" id="signupPhone"
+                                    name="signupPhone"
+                                    class="input-item form-control"
+                                    placeholder="핸드폰번호"
+                                    onchange="checkValue(this);">
+                            </div>
+                            <div class="input-box my-2">
+                                <label for="signupaddress"
+                                    class="input-label">주소</label> <input
+                                    type="text" id="signupaddress"
+                                    name="signupaddress"
+                                    class="input-item form-control"
+                                    placeholder="주소"
+                                    onchange="checkValue(this);">
+                            </div>
+                        </form>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary"
+                            data-bs-dismiss="modal">취소</button>
+                        <button id="registerConfirmBtn"
+                            class="btn btn-primary btnSubmit"
+                            data-bs-target="#exampleModalToggle2"
+                            data-bs-toggle=""
+                            onclick="modalConfirm(this);">확인</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="modal fade" id="exampleModalToggle2"
+            aria-hidden="true"
+            aria-labelledby="exampleModalToggleLabel2" tabindex="-1"
+            data-bs-backdrop="static" data-bs-keyboard="false">
+            <div class="modal-dialog modal-dialog-centered">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h1 class="modal-title fs-5"
+                            id="exampleModalToggleLabel2">회원 정보 확인</h1>
+                        <button type="button" class="btn-close"
+                            data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <form id="registerForm" action="./user/signup"
+                            method="post">
+                            <div class="input-box my-2">
+                                <label for="username"
+                                    class="input-label">아이디</label> <input
+                                    type="text" id="username"
+                                    name="username"
+                                    class="input-item form-control"
+                                    placeholder="아이디" readonly>
+                            </div>
+                            <div class="input-box my-2">
+                                <label for="password"
+                                    class="input-label" hidden="true">비밀번호</label>
+                                <input type="password" id="password"
+                                    name="password"
+                                    class="input-item form-control"
+                                    placeholder="비밀번호" required
+                                    hidden="true" readonly>
+                            </div>
+                            <div class="input-box my-2">
+                                <label for="email" class="input-label">이메일</label>
+                                <input type="email" id="email"
+                                    name="email"
+                                    class="input-item form-control"
+                                    placeholder="이메일" required readonly>
+                            </div>
+                            <div class="input-box my-2">
+                                <label for="nickname"
+                                    class="input-label">닉네임</label> <input
+                                    type="text" id="nickname"
+                                    name="nickname"
+                                    class="input-item form-control"
+                                    placeholder="닉네임" required readonly>
+                            </div>
+                            <div class="input-box my-2">
+                                <label for="name" class="input-label">실명</label>
+                                <input type="text" id="name" name="name"
+                                    class="input-item form-control"
+                                    placeholder="주소" required readonly>
+                            </div>
+                            <div class="input-box my-2">
+                                <label for="phone" class="input-label">핸드폰번호</label>
+                                <input type="text" id="phone"
+                                    name="phone"
+                                    class="input-item form-control"
+                                    placeholder="주소" required readonly>
+                            </div>
+                            <div class="input-box my-2">
+                                <label for="address" class="input-label">주소</label>
+                                <input type="text" id="address"
+                                    name="address"
+                                    class="input-item form-control"
+                                    placeholder="주소" required readonly>
+                            </div>
+                            <hr />
+                            <div>
+                                <h6>위 정보로 회원가입을 하시겠습니까?</h6>
+                            </div>
+                        </form>
+                    </div>
+                    <div class="modal-footer">
+                        <button class="btn btn-primary"
+                            data-bs-target="#exampleModalToggle"
+                            data-bs-toggle="modal">이전</button>
+                        <button type="button" class="btn btn-primary"
+                            onclick="sendForm('register'); alertNewUser();">완료</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+
+
+
+
+<!-- 상단 메뉴 바(검은색) -->
+<header id="top-menu-full-screen" class="w3-bar w3-top w3-hide-small w3-hide-medium w3-black w3-xlarge" style="z-index:4">
+
+  <a href="javascript:void(0)" class="w3-bar-item w3-button w3-padding-24 w3-left" onclick="w3_open()"  style="margin-left:50px;"><i class="fa fa-bars"></i></a>
+    <a href="/" class="w3-bar-item w3-padding-24 w3-wide" id="logo-top" style="text-decoration-line: none; color:white; padding-left:60px;">
+    BOOQUE 
+    </a>
+        <!-- 로그인 하지 않은 상태 -->
+        <th:block sec:authorize="isAnonymous()">
+            <!-- 익명 사용자인 경우에 보여줄 내용 -->
+            <a class="w3-bar-item w3-button w3-right btn nav-link" data-bs-toggle="modal"
+            id="registerUser" href="#exampleModalToggle" role="button"
+            style="font-size:medium; margin-top:25px; margin-right:50px;">회원가입</a>
+            <a class="w3-bar-item w3-button w3-right btn nav-link" id="btnSignIn"
+            style="font-size:medium; margin-top:25px; margin-right:20px;"
+                th:href="@{ /login }">로그인</a>
+        </th:block>
+        <!-- 로그인 한 상태 -->
+        <th:block sec:authorize="isAuthenticated()">
+            <!-- 로그인(인증) 됐나요? -->
+            <a class="w3-bar-item w3-button w3-right btn nav-link" id="btnSignOut"
+            style="font-size:medium; margin-top:25px; margin-right:20px;"
+                th:href="@{ /logout }"> 로그아웃
+            </a>
+            <span class="text-info w3-bar-item w3-right"
+                style="font-size:large; margin-top:20px; margin-right:30px;"
+                    sec:authentication="name"></span>
+        </th:block>
+        
+        
+        
+        
+        
+        
+        
+    </header>
+
+<!-- 사이드바 -->
+
+<nav class="w3-bar-block w3-white w3-collapse w3-top" style="z-index:3; width:250px; height:100%; display:none;" id="sideBar">
+
+  <div class="w3-container w3-display-container w3-padding-16" style="margin-top: 90px;  margin-left: 30px;">
+    <i onclick="w3_close()" class="fa fa-remove w3-button w3-display-topright"></i>
+    
+    <div style="margin-top: 5px; margin-bottom: 30px;">
+    <!-- 로고 이미지 -->
+    <a href="/" id="logo-side">
+    <img src="/images/booque_logo.jpg" width="120px" />
+    </a>
+    </div>
+    
+    <hr/>
+    
+  </div>
+  <div class="w3-large w3-text-grey" style="margin-left: 30px; font-weight:bold">
+  
+  <a href="#" class="w3-button w3-block w3-white w3-left-align" id="btnGroupAll">전체도서</a>
+  
+  <a onclick="open_group0()" href="javascript:void(0)" class="w3-button w3-block w3-white w3-left-align" id="btnGroup0">분야별 도서<i class = "fa fa-caret-down"></i> </a>
+  <div id="group0" class="w3-bar-block w3-hide w3-padding-large w3-medium w3-show">
+  <a onclick="category1()" href="#" class="btnCategory w3-bar-item w3-button" id="category1">
+  <i class="cateNow fa fa-caret-right w3-margin-right" style="display:none;"></i>경제/경영</a>
+  <a onclick="category2()" href="#" class="btnCategory w3-bar-item w3-button" id="category2">인문</a>
+  <a onclick="category3()" href="#" class="btnCategory w3-bar-item w3-button" id="category3">소설</a>
+  <a onclick="category4()" href="#" class="btnCategory w3-bar-item w3-button" id="category4">시/에세이</a>
+  <a onclick="category5()" href="#" class="btnCategory w3-bar-item w3-button" id="category5">자기계발</a>
+  <a onclick="category6()" href="#" class="btnCategory w3-bar-item w3-button" id="category6">기타</a>
+  </div>
+  
+  <a onclick="open_group1()" href="javascript:void(0)" class="w3-button w3-block w3-white w3-left-align" id="btnGroup1">국내도서<i class = "fa fa-caret-down"></i> </a>
+  <div id="group1" class="w3-bar-block w3-hide w3-padding-large w3-medium">
+  <a href="#" class="w3-bar-item w3-button w3-light-grey">
+  <i class="fa fa-caret-right w3-margin-right"></i>전체</a>
+  <a href="#" class="w3-bar-item w3-button">경제/경영</a>
+  <a href="#" class="w3-bar-item w3-button">인문</a>
+  <a href="#" class="w3-bar-item w3-button">소설</a>
+  <a href="#" class="w3-bar-item w3-button">시/에세이</a>
+  <a href="#" class="w3-bar-item w3-button">자기계발</a>
+  <a href="#" class="w3-bar-item w3-button">기타</a>
+  </div>
+  
+  <a onclick="open_group2()" href="javascript:void(0)" class="w3-button w3-block w3-white w3-left-align" id="btnGroup2">외국도서<i class = "fa fa-caret-down"></i> </a>
+  <div id="group2" class="w3-bar-block w3-hide w3-padding-large w3-medium">
+  <a href="#" class="w3-bar-item w3-button w3-light-grey">
+  <i class="fa fa-caret-right w3-margin-right"></i>전체</a>
+  <a href="#" class="w3-bar-item w3-button">경제/경영</a>
+  <a href="#" class="w3-bar-item w3-button">인문</a>
+  <a href="#" class="w3-bar-item w3-button">소설</a>
+  <a href="#" class="w3-bar-item w3-button">자기계발</a>
+  <a href="#" class="w3-bar-item w3-button">기타</a>
+  </div>
+  
+  
+  <hr />
+  
+    <!-- 로그인하지 않은 상태 -->
+    <a href="#" id="btnSignIn-side" class="w3-bar-item w3-button w3-medium">로그인</a>
+    <a href="#" id="btnSignUp-side" class="w3-bar-item w3-button w3-medium">회원가입</a>
+    
+    <br/>
+    
+    <!-- 로그인한 상태 -->
+    <a href="myPage?id=1" id="btnMyPage" class="w3-bar-item w3-button w3-medium">마이페이지</a>
+    <a href="#" id="btnSignOut" class="w3-bar-item w3-button w3-medium">로그아웃</a>
+    
+    
+  </div>
+</nav> <!-- 사이드바 end -->
+
+
+
+<!-- 작은 화면(좁은 너비)에서의 상단 메뉴 바(검은색) -->
+<header id="top-menu-small-screen" class="w3-bar w3-top w3-hide-large w3-black w3-xlarge">
+  <a href="javascript:void(0)" class="w3-bar-item w3-button w3-padding-24 w3-left" onclick="w3_open()"><i class="fa fa-bars"></i></a>
+    <a href="/" class="w3-bar-item w3-padding-24 w3-wide" id="logo-top" style="text-decoration-line: none; color:white;"> BOOQUE </a>
+    
+    <!-- 
+    <a href="#" class="w3-bar-item w3-button w3-right" id="btnSignIn" style="font-size:medium; margin-top:25px; margin-right:10px;">회원가입</a>
+    <a href="#" class="w3-bar-item w3-button w3-right" id="btnSignUp" style="font-size:medium; margin-top:25px;">로그인</a>
+     -->
+     
+     <!-- 로그인 하지 않은 상태 -->
+        <th:block sec:authorize="isAnonymous()">
+            <!-- 익명 사용자인 경우에 보여줄 내용 -->
+            <a class="w3-bar-item w3-button w3-right btn nav-link" data-bs-toggle="modal"
+            id="registerUser" href="#exampleModalToggle" role="button"
+            style="font-size:medium; margin-top:25px; margin-right:10px;">회원가입</a>
+            <a class="w3-bar-item w3-button w3-right btn nav-link" id="btnSignIn"
+            style="font-size:medium; margin-top:25px;"
+                th:href="@{ /login }">로그인</a>
+        </th:block>
+        <!-- 로그인 한 상태 -->
+        <th:block sec:authorize="isAuthenticated()">
+            <!-- 로그인(인증) 됐나요? -->
+            <a class="w3-bar-item w3-button w3-right btn nav-link" id="btnSignOut"
+            style="font-size:medium; margin-top:25px; margin-right:20px;"
+                th:href="@{ /logout }"> 로그아웃
+            </a>
+            <span class="text-info w3-bar-item w3-right"
+                style="font-size:large; margin-top:20px; margin-right:30px;"
+                    sec:authentication="name"></span>
+        </th:block>
+     
+</header>
+
+<!-- Overlay effect when opening sidebar on small screens -->
+<div class="w3-overlay w3-hide-large" onclick="w3_close()" style="cursor:pointer" title="close side menu" id="overlay"></div>
+
+<!-- !PAGE CONTENT! -->
+<div class="w3-main" style="margin-left:250px">
+
+  <!-- Push down content on small screens -->
+  <div class="w3-hide-large" style="margin-top:83px"></div>
+  
+  <header class="w3-container w3-xlarge" style="margin-top:120px; margin-bottom:40px;">
+
+    <p class="w3-left" id="title-menu"><b></b></p>
+  
+  
+    <form th:action="@{ /search/s }">
+    <p class="w3-right">  
+    <!-- 검색 타입 -->
+    <select name="type" class="selectedType" style="font-size:20px;">
+            <option value="all">통합검색</option>
+            <option value="do">국내도서</option>
+            <option value="fo">외국도서</option>
+            <option value="au">저자</option>
+    </select>
+      <!-- 검색어 입력 창 -->
+        <input type="text" style="height:30px;" id="keyword" name="keyword"/>
+      <!-- 검색 버튼 -->
+      <input type="submit" value="확인" />
+      <a href="javascript:void(0)" type="submit" style="color:black; margin-right:40px; margin-left:20px;">
+      <i class="fa fa-search" id="btnSearch"></i></a> 
+
+      <!-- 장바구니 버튼  (TODO) userId로 연결시키기 -->
+      <a th:href="@{ /cart(id=1) }" style="color:black; margin-right:40px;"><i class="fa fa-shopping-cart w3-margin-right" id="btnCart"></i></a>
+
+       </p>
+   </form>
+   
+   
+
+  </header>
+  
+  <!-- Main Contents 넣는 곳 -->
+    <div class="container-fluid" layout:fragment = "content">
+                    
+    </div>
+    
+</div>
+
+
+<!--/* footer.html fragment(HTML 조각)를 삽입  */-->
+
+    <div th:replace="fragments/footer :: footer"></div>
+    <!-- (src/main/resources/templates/)  fragments 폴더 아래의 footer.html 파일 안의 footer 부분으로 여기를 대체 -->
+    
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+
+<script
+            src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.bundle.min.js"
+            integrity="sha384-OERcA2EqjJCMA+/3y+gxIOqMEjwtxJY7qPCqsdltbNJuaOe923+mo//f6V8Qbsw3"
+            crossorigin="anonymous">
+    </script>
+
+
+
+
+
+<!-- Home에 사용되는 JavaScript -->
+<script th:src="@{ /js/home.js }"></script>
+
+
+
+<th:block layout:fragment="script">
+</th:block>
+
+<!-- 상단/사이드바, 모달 등 모든 페이지에 들어가는 공통 자바스크립트 -->
+<script th:src="@{ /js/script.js }"></script>
+  
+
+</body>
+</html>

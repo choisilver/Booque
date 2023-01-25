@@ -1,0 +1,721 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+    xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5"
+    xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+    layout:decorate="~{ layout/layout }">
+
+<div layout:fragment="content" align="center">
+
+<head>
+    <meta charset="UTF-8">
+    <title>BOOQUE</title>
+    
+    <link
+            href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css"
+            rel="stylesheet"
+            integrity="sha384-Zenh87qX5JnK2Jl0vWa8Ck2rdkQ2Bzep5IDxbcnCeuOxjzrPF/et3URy9Bv1WTRi"
+            crossorigin="anonymous" />
+            
+    <style>
+    
+    .mainTitle {
+        font-size:40px;
+        font-weight:bold;
+        padding-left: 20px;
+        padding-right: 20px;
+    }
+    
+    .underline {
+        border-bottom: 5px solid hotpink;
+        padding-left: 100px;
+    }
+    
+    .best>a {
+        text-decoration:none;
+        color:black;
+        font-weight:bold; 
+        font-size:25px;
+    }
+    
+    .best>a>img {
+        box-shadow: 10px 10px 20px lightgrey;
+        height: 400px;
+        margin-bottom:12px;
+    }
+    
+    .best>a>img:hover {
+        height: 450px;
+        transition: .3s;
+    }
+    
+    .best>a>span {
+        font-size:20px;
+    }
+    
+    .reviewContent {
+    text-decoration:none;
+    color:darkslategrey;
+        font-weight:bold;
+          overflow: hidden;
+          text-overflow: ellipsis;
+          display: -webkit-box;
+          -webkit-line-clamp: 6;
+          -webkit-box-orient: vertical;
+    }
+    
+    .reviewContent:hover {
+        color:darkslategrey;
+    }
+    
+    .reviewTitle {
+    text-decoration:none;
+        color: dodgerBlue;
+        font-weight:bold;
+    }
+    
+    .reviewTitle:hover {
+    color: dodgerBlue;
+        font-weight:bolder;
+        text-decoration:underline lightgrey;
+        text-underline-position : under;
+    }
+    
+    .tapContent>h2 {
+        font-weight:bold;
+    }
+    
+    
+    
+    </style>
+
+<!-- 
+<link
+    href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css"
+    rel="stylesheet"
+    integrity="sha384-rbsA2VBKQhggwzxH7pPCaAqO46MgnOM80zW1RWuH61DGLwZJEdK2Kadq2F9CUG65"
+    crossorigin="anonymous">
+     -->
+    
+    <!-- <link rel='stylesheet' type='text/css'
+    href='http://tkfile.yes24.com/New/Css/main2.css?v=2020012203' />
+    <link rel='stylesheet' type='text/css'
+    href='http://tkfile.yes24.com/New/Css/swiper.css' /> -->
+
+</head>
+
+<body>
+
+
+
+
+<div id="carouselExampleIndicators" class="carousel slide" data-bs-ride="true" style="border:2px solid white; width: 70%; z-index:0; margin-bottom:100px;">
+  <div class="carousel-indicators">
+    <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
+    <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="1" aria-label="Slide 2"></button>
+    <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="2" aria-label="Slide 3"></button>
+    <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="3" aria-label="Slide 4"></button>
+  </div>
+  <div class="carousel-inner">
+  <div class="carousel-item active">
+        <a href ='/detail?id=10' target='_self' title='말의 트렌드'>
+            <img style="width:100%; height:auto;"  src="https://contents.kyobobook.co.kr/display/c_670_300_3%20(3)_3212e1b97efc4793abdc6fdac416b260.jpg" class="d-block" alt="말의 트렌드" />
+        </a>
+    </div>
+    <div class="carousel-item">
+        <a href ='/detail?id=3' target='_self' title='기분대로 아이를 키우지 않겠습니다'>
+            <img style="width:100%; height:auto;" src="https://contents.kyobobook.co.kr/display/c_670_300_1%20(3)_b065b00008aa43b68365d8b83ede2e63.jpg" class="d-block" alt="기분대로 아이를 키우지 않겠습니다" />
+        </a>
+    </div>
+    <div class="carousel-item">
+        <a href ='/detail?id=48' target='_self' title='수학의 위로'>
+            <img style="width:100%; height:auto;" src="https://contents.kyobobook.co.kr/display/c_670_300_2%20(3)_894c811671bb42e9b6132e933046dd16.jpg" class="d-block" alt="수학의 위로" />
+        </a>
+    </div>
+  <div class="carousel-item">
+        <a href ='/detail?id=93' target='_self' title='장미의 이름'>
+            <img style="width:100%; height:auto;" src="https://contents.kyobobook.co.kr/display/c_670_300_80a9e9fa5bcb439fb3f9ba726ad20aaa.jpg" class="d-block" alt="장미의 이름" />
+        </a>
+    </div>
+    
+    
+    
+  </div>
+  <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide="prev">
+    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+    <span class="visually-hidden">Previous</span>
+  </button>
+  <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide="next">
+    <span class="carousel-control-next-icon" aria-hidden="true"></span>
+    <span class="visually-hidden">Next</span>
+  </button>
+</div>
+
+
+
+
+<!-- 부트스트랩 버전 -->
+<!-- 
+<div id="carouselExampleIndicators2" class="carousel slide" data-bs-ride="true" style="width: 400px; z-index:0;">
+  <div class="carousel-indicators">
+    <button type="button" data-bs-target="#carouselExampleIndicators2" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
+    <button type="button" data-bs-target="#carouselExampleIndicators2" data-bs-slide-to="1" aria-label="Slide 2"></button>
+    <button type="button" data-bs-target="#carouselExampleIndicators2" data-bs-slide-to="2" aria-label="Slide 3"></button>
+    <button type="button" data-bs-target="#carouselExampleIndicators2" data-bs-slide-to="3" aria-label="Slide 4"></button>
+    <button type="button" data-bs-target="#carouselExampleIndicators2" data-bs-slide-to="4" aria-label="Slide 5"></button>
+  </div>
+  <div class="carousel-inner">
+    <div class="carousel-item active text-center">
+        <a href ='/detail?id=10' target='_self' title='세상의 마지막 기차역'>
+            <img src="https://contents.kyobobook.co.kr/sih/fit-in/458x0/pdt/9791191043754.jpg" class="d-block w-100" alt="세상의 마지막 기차역" />
+        </a>
+    </div>
+    <div class="carousel-item">
+        <a href ='/detail?id=93' target='_self' title='다다다'>
+            <img src="https://contents.kyobobook.co.kr/sih/fit-in/458x0/pdt/9791191114102.jpg" class="d-block w-100" alt="다다다" />
+        </a>
+    </div>
+    <div class="carousel-item">
+        <a href ='/detail?id=48' target='_self' title='물고기는 존재하지 않는다'>
+            <img src="https://contents.kyobobook.co.kr/sih/fit-in/458x0/pdt/9791189327156.jpg" class="d-block w-100" alt="물고기는 존재하지 않는다" />
+        </a>
+    </div>
+    <div class="carousel-item">
+        <a href ='/detail?id=16' target='_self' title='인생의 허무를 어떻게 할 것인가'>
+            <img src="https://contents.kyobobook.co.kr/sih/fit-in/458x0/pdt/9791167070791.jpg" class="d-block w-100" alt="인생의 허무를 어떻게 할 것인가" />
+        </a>
+    </div>
+    <div class="carousel-item">
+        <a href ='/detail?id=3' target='_self' title='불편한 편의점(40만부 기념 벚꽃 에디션)'>
+            <img src="https://contents.kyobobook.co.kr/sih/fit-in/458x0/pdt/9791161571188.jpg" class="d-block w-100" alt="불편한 편의점(40만부 기념 벚꽃 에디션)" />
+        </a>
+    </div>
+  </div>
+  <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleIndicators2" data-bs-slide="prev">
+    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+    <span class="visually-hidden">Previous</span>
+  </button>
+  <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleIndicators2" data-bs-slide="next">
+    <span class="carousel-control-next-icon" aria-hidden="true"></span>
+    <span class="visually-hidden">Next</span>
+  </button>
+</div> 
+ -->
+
+
+<!-- yes24 버전 -->
+
+<!--  
+         <div class='m2-kv-hidden'>
+        <div class='m2-kv-wrap'>
+            <div class='m2-kv'>
+                <div class='swiper-container m2-kvs'>
+                    <div class='swiper-wrapper'>
+                        <div class='swiper-slide'>
+                            <a href='/detail?id=10'
+                                target='_self' title='세상의 마지막 기차역'><img
+                                src='https://contents.kyobobook.co.kr/sih/fit-in/458x0/pdt/9791191043754.jpg'
+                                alt='세상의 마지막 기차역' /></a>
+                        </div>
+                        <div class='swiper-slide'>
+                            <a href='/detail?id=19'
+                                target='_self'
+                                title='파친코 1'><img
+                                src='https://contents.kyobobook.co.kr/sih/fit-in/458x0/pdt/9791168340510.jpg'
+                                alt='파친코 1' /></a>
+                        </div>
+                        <div class='swiper-slide'>
+                            <a href='/detail?id=48'
+                                target='_self' title='물고기는 존재하지 않는다'><img
+                                src='https://contents.kyobobook.co.kr/sih/fit-in/458x0/pdt/9791189327156.jpg'
+                                alt='물고기는 존재하지 않는다' /></a>
+                        </div>
+                        <div class='swiper-slide'>
+                            <a href='/detail?id=16'
+                                target='_self'
+                                title='인생의 허무를 어떻게 할 것인가 '><img
+                                src='https://contents.kyobobook.co.kr/sih/fit-in/458x0/pdt/9791167070791.jpg'
+                                alt='인생의 허무를 어떻게 할 것인가' /></a>
+                        </div>
+                        <div class='swiper-slide'>
+                            <a href='/detail?id=97'
+                                target='_self'
+                                title='왜 일하는가 '><img
+                                src='https://contents.kyobobook.co.kr/sih/fit-in/458x0/pdt/9791130637037.jpg'
+                                alt='왜 일하는가' /></a>
+                        </div>
+                        <div class='swiper-slide'>
+                            <a
+                                href='/detail?id=3'
+                                target='_self' title='불편한 편의점(40만부 기념 벚꽃 에디션)'><img
+                                src='https://contents.kyobobook.co.kr/sih/fit-in/458x0/pdt/9791161571188.jpg'
+                                alt='불편한 편의점(40만부 기념 벚꽃 에디션)' /></a>
+                        </div>
+                        <div class='swiper-slide'>
+                            <a
+                                href='/detail?id=2'
+                                target='_self'
+                                title='아버지의 해방일지'><img
+                                src='https://contents.kyobobook.co.kr/sih/fit-in/458x0/pdt/9788936438838.jpg'
+                                alt='아버지의 해방일지' /></a>
+                        </div>
+                        
+                        <div class='swiper-slide'>
+                            <a href='/detail?id=79'
+                                target='_self' title='꽃을 보듯 너를 본다'><img
+                                src='https://contents.kyobobook.co.kr/sih/fit-in/458x0/pdt/9791157280292.jpg'
+                                alt='꽃을 보듯 너를 본다' /></a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class='swiper-button-next m2-kvs'></div>
+        <div class='swiper-button-prev m2-kvs'></div>
+    </div>
+   -->     
+   
+   
+   
+   <!-- 전체 책 중 베스트 목록(별점 높은 순) -->
+   <div id="bestList" class="w3-padding" style="width:80%; margin-bottom:120px;">
+   
+   <span class="underline"></span>
+   <span class="mainTitle"> What's BEST? </span>
+   <span class="underline"></span>
+   
+  <div class="w3-row w3-padding-16" style="margin-top:40px; height: 520px;">
+    <div class="best w3-quarter">
+    <a th:href="@{ /detail(id= ${ top4ScoreList[0].getBookId } ) }">
+      <img th:src="${ top4ScoreList[0].getBookImage }" th:alt="${ top4ScoreList[0].getBookName }">
+      <br/><span th:text="${ top4ScoreList[0].getBookName}"></span></a>
+    </div>
+    
+    <div class="best w3-quarter">
+    <a th:href="@{ /detail(id= ${ top4ScoreList[1].getBookId } ) }">
+      <img th:src="${ top4ScoreList[1].getBookImage }" th:alt="${ top4ScoreList[1].getBookName }">
+      <br/><span th:text="${ top4ScoreList[1].getBookName}"></span></a>
+      </div>
+    
+    <div class="best w3-quarter">
+    <a th:href="@{ /detail(id= ${ top4ScoreList[2].getBookId } ) }">
+      <img th:src="${ top4ScoreList[2].getBookImage }" th:alt="${ top4ScoreList[2].getBookName }">
+      <br/><span th:text="${ top4ScoreList[2].getBookName}"></span></a>
+   </div>
+   
+   <div class="best w3-quarter">
+    <a th:href="@{ /detail(id= ${ top4ScoreList[3].getBookId } ) }">
+      <img th:src="${ top4ScoreList[3].getBookImage }" th:alt="${ top4ScoreList[3].getBookName }">
+      <br/><span th:text="${ top4ScoreList[3].getBookName}"></span></a>
+   </div>
+  </div>
+  
+  </div>
+  
+  
+  
+  
+  
+  
+  <!-- 전체 책 중 리뷰 많은 순 목록(What's HOT?) -->
+   <div id="hotList" class="w3-padding" style="width:80%; margin-bottom:120px;">
+   
+   <span class="underline"></span>
+   <span class="mainTitle"> What's HOT? </span>
+   <span class="underline"></span>
+  
+  <div class="w3-row w3-padding-16" style="margin-top:40px; height: 520px;">
+    <div class="best w3-quarter">
+    <a th:href="@{ /detail(id= ${ top4ReviewList[0].getBookId } ) }">
+      <img th:src="${ top4ReviewList[0].getBookImage }" th:alt="${ top4ReviewList[0].getBookName }">
+      <br/><span th:text="${ top4ReviewList[0].getBookName}"></span></a>
+    </div>
+    <div class="best w3-quarter">
+    <a th:href="@{ /detail(id= ${ top4ReviewList[1].getBookId } ) }">
+      <img th:src="${ top4ReviewList[1].getBookImage }" th:alt="${ top4ReviewList[1].getBookName }">
+      <br/><span th:text="${ top4ReviewList[1].getBookName}"></span></a>
+    </div>
+    <div class="best w3-quarter">
+    <a th:href="@{ /detail(id= ${ top4ReviewList[2].getBookId } ) }">
+      <img th:src="${ top4ReviewList[2].getBookImage }" th:alt="${ top4ReviewList[2].getBookName }">
+      <br/><span th:text="${ top4ReviewList[2].getBookName}"></span></a>
+    </div>
+    <div class="best w3-quarter">
+    <a th:href="@{ /detail(id= ${ top4ReviewList[3].getBookId } ) }">
+      <img th:src="${ top4ReviewList[3].getBookImage }" th:alt="${ top4ReviewList[3].getBookName }">
+      <br/><span th:text="${ top4ReviewList[3].getBookName}"></span></a>
+    </div>
+  </div>
+  
+  </div>
+  
+  
+  
+    <!-- 인기 리뷰(포스트 댓글 많이 달린 순) -->
+  <div id="hotPosts" class="w3-padding" style="width:75%; margin-bottom:120px; border:2px solid white;">
+           
+    <span class="underline"></span>
+    <span class="mainTitle"> 인기 리뷰 </span>
+    <span class="underline"></span>
+        
+    <div id="hotPostsSlides" class="carousel slide" data-bs-ride="true" style="border:2px solid white; width: 100%; z-index:0;">
+        <div class="carousel-indicators">
+            <button type="button" data-bs-target="#hotPostsSlides" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
+            <button type="button" data-bs-target="#hotPostsSlides" data-bs-slide-to="1" aria-label="Slide 2"></button>
+        </div>
+        <div class="carousel-inner w3-border" style="margin-top: 50px;  padding-top:60px; padding-bottom:60px;  padding-left:30px; padding-right:30px;">
+            <div class="carousel-item active">
+                <div class="w3-quarter">
+                     <img class="w3-card"  th:src="${ hotReviewPostList[0].getBookImage }" style="height:250px; width:auto;" />
+                </div>
+                <div class="w3-quarter" style="text-align:left;">
+                    <a class="h3 reviewTitle" 
+                    th:href="@{ /post/detail?postId={postId}&bookId={bookId} (postId = ${ hotReviewPostList[0].getPostId }, bookId = ${ hotReviewPostList[0].getBookId } )}" 
+                    th:text="${ hotReviewPostList[0].getTitle }"></a>
+                    <a  class="reviewContent w3-hover-opacity"  
+                    th:href="@{ /post/detail?postId={postId}&bookId={bookId} (postId = ${ hotReviewPostList[0].getPostId }, bookId = ${ hotReviewPostList[0].getBookId } )}" 
+                    th:text="${ hotReviewPostList[0].getPostContent }"style="padding-top:50px;"></a>
+                </div>
+                <div class="w3-quarter">
+                    <img class="w3-card" th:src="${ hotReviewPostList[1].getBookImage }" style="height: 250px; width:auto;" />
+                </div>
+                <div class="w3-quarter" style="text-align:left;">
+                    <a class="h3 reviewTitle" 
+                    th:href="@{ /post/detail?postId={postId}&bookId={bookId} (postId = ${ hotReviewPostList[1].getPostId }, bookId = ${ hotReviewPostList[1].getBookId } )}" 
+                    th:text="${ hotReviewPostList[1].getTitle }"></a>
+                    <a  class="reviewContent w3-hover-opacity"  
+                    th:href="@{ /post/detail?postId={postId}&bookId={bookId} (postId = ${ hotReviewPostList[1].getPostId }, bookId = ${ hotReviewPostList[1].getBookId } )}" 
+                    th:text="${ hotReviewPostList[1].getPostContent }"style="padding-top:50px;"></a>
+                </div>
+            </div>
+             <div class="carousel-item">
+                <div class="w3-quarter">
+                     <img class="w3-card"  th:src="${ hotReviewPostList[2].getBookImage }" style="height:250px; width:auto;" />
+                </div>
+                <div class="w3-quarter" style="text-align:left;">
+                    <a class="h3 reviewTitle" 
+                    th:href="@{ /post/detail?postId={postId}&bookId={bookId} (postId = ${ hotReviewPostList[2].getPostId }, bookId = ${ hotReviewPostList[2].getBookId } )}" 
+                    th:text="${ hotReviewPostList[2].getTitle }"></a>
+                    <a  class="reviewContent w3-hover-opacity"  
+                    th:href="@{ /post/detail?postId={postId}&bookId={bookId} (postId = ${ hotReviewPostList[2].getPostId }, bookId = ${ hotReviewPostList[2].getBookId } )}" 
+                    th:text="${ hotReviewPostList[2].getPostContent }"style="padding-top:50px;"></a>
+                </div>
+                <div class="w3-quarter">
+                    <img class="w3-card" th:src="${ hotReviewPostList[3].getBookImage }" style="height: 250px; width:auto;" />
+                </div>
+                <div class="w3-quarter" style="text-align:left;">
+                    <a class="h3 reviewTitle" 
+                    th:href="@{ /post/detail?postId={postId}&bookId={bookId} (postId = ${ hotReviewPostList[3].getPostId }, bookId = ${ hotReviewPostList[3].getBookId } )}" 
+                    th:text="${ hotReviewPostList[3].getTitle }"></a>
+                    <a  class="reviewContent w3-hover-opacity"  
+                    th:href="@{ /post/detail?postId={postId}&bookId={bookId} (postId = ${ hotReviewPostList[3].getPostId }, bookId = ${ hotReviewPostList[3].getBookId } )}" 
+                    th:text="${ hotReviewPostList[3].getPostContent }"style="padding-top:50px;"></a>
+                </div>
+            </div>
+        </div>
+        <button class="carousel-control-prev" type="button" data-bs-target="#hotPostsSlides" data-bs-slide="prev">
+            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+            <span class="visually-hidden">Previous</span>
+        </button>
+        <button class="carousel-control-next" type="button" data-bs-target="#hotPostsSlides" data-bs-slide="next">
+            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+            <span class="visually-hidden">Next</span>
+        </button>
+    </div>
+            
+</div>
+    
+    
+    
+    
+    
+<!-- 현재 많이 보고 있는 리뷰(포스트 조회수 높은 순) -->
+<div id="hitPosts" class="w3-padding" style="width:75%; margin-bottom:120px;">
+           
+    <span class="underline"></span>
+    <span class="mainTitle"> 현재 많이 보고 있는 리뷰 </span>
+    <span class="underline"></span>
+        
+  <div id="hitPostsSlides" class="carousel slide" data-bs-ride="true" style="border:2px solid white; width: 100%; z-index:0;">
+        <div class="carousel-indicators">
+            <button type="button" data-bs-target="#hitPostsSlides" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
+            <button type="button" data-bs-target="#hitPostsSlides" data-bs-slide-to="1" aria-label="Slide 2"></button>
+        </div>
+        <div class="carousel-inner w3-border" style="margin-top: 50px;  padding-top:60px; padding-bottom:60px; padding-left:30px; padding-right:30px;">
+            <div class="carousel-item active">
+                <div class="w3-quarter">
+                     <img class="w3-card"  th:src="${ bestHitPostList[0].getBookImage }" style="height:250px; width:auto;" />
+                </div>
+                <div class="w3-quarter" style="text-align:left;">
+                    <a class="h3 reviewTitle" 
+                    th:href="@{ /post/detail?postId={postId}&bookId={bookId} (postId = ${ bestHitPostList[0].getPostId }, bookId = ${ bestHitPostList[0].getBookId } )}" 
+                    th:text="${ bestHitPostList[0].getTitle }"></a>
+                    <a  class="reviewContent w3-hover-opacity"  
+                    th:href="@{ /post/detail?postId={postId}&bookId={bookId} (postId = ${ bestHitPostList[0].getPostId }, bookId = ${ bestHitPostList[0].getBookId } )}" 
+                    th:text="${ bestHitPostList[0].getPostContent }"style="padding-top:50px;"></a>
+                </div>
+                <div class="w3-quarter">
+                    <img class="w3-card" th:src="${ bestHitPostList[1].getBookImage }" style="height: 250px; width:auto;" />
+                </div>
+                <div class="w3-quarter" style="text-align:left;">
+                    <a class="h3 reviewTitle" 
+                    th:href="@{ /post/detail?postId={postId}&bookId={bookId} (postId = ${ bestHitPostList[1].getPostId }, bookId = ${ bestHitPostList[1].getBookId } )}" 
+                    th:text="${ bestHitPostList[1].getTitle }"></a>
+                    <a  class="reviewContent w3-hover-opacity"  
+                    th:href="@{ /post/detail?postId={postId}&bookId={bookId} (postId = ${ bestHitPostList[1].getPostId }, bookId = ${ bestHitPostList[1].getBookId } )}" 
+                    th:text="${ bestHitPostList[1].getPostContent }"style="padding-top:50px;"></a>
+                </div>
+            </div>
+             <div class="carousel-item">
+                <div class="w3-quarter">
+                     <img class="w3-card"  th:src="${ bestHitPostList[2].getBookImage }" style="height:250px; width:auto;" />
+                </div>
+                <div class="w3-quarter" style="text-align:left;">
+                    <a class="h3 reviewTitle" 
+                    th:href="@{ /post/detail?postId={postId}&bookId={bookId} (postId = ${ bestHitPostList[2].getPostId }, bookId = ${ bestHitPostList[2].getBookId } )}" 
+                    th:text="${ bestHitPostList[2].getTitle }"></a>
+                    <a  class="reviewContent w3-hover-opacity"  
+                    th:href="@{ /post/detail?postId={postId}&bookId={bookId} (postId = ${ bestHitPostList[2].getPostId }, bookId = ${ bestHitPostList[2].getBookId } )}" 
+                    th:text="${ bestHitPostList[2].getPostContent }"style="padding-top:50px;"></a>
+                </div>
+                <div class="w3-quarter">
+                    <img class="w3-card" th:src="${ bestHitPostList[3].getBookImage }" style="height: 250px; width:auto;" />
+                </div>
+                <div class="w3-quarter" style="text-align:left;">
+                    <a class="h3 reviewTitle" 
+                    th:href="@{ /post/detail?postId={postId}&bookId={bookId} (postId = ${ bestHitPostList[3].getPostId }, bookId = ${ bestHitPostList[3].getBookId } )}" 
+                    th:text="${ bestHitPostList[3].getTitle }"></a>
+                    <a  class="reviewContent w3-hover-opacity"  
+                    th:href="@{ /post/detail?postId={postId}&bookId={bookId} (postId = ${ bestHitPostList[3].getPostId }, bookId = ${ bestHitPostList[3].getBookId } )}" 
+                    th:text="${ bestHitPostList[3].getPostContent }"style="padding-top:50px;"></a>
+                </div>
+            </div>
+        </div>
+        <button class="carousel-control-prev" type="button" data-bs-target="#hitPostsSlides" data-bs-slide="prev">
+            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+            <span class="visually-hidden">Previous</span>
+        </button>
+        <button class="carousel-control-next" type="button" data-bs-target="#hitPostsSlides" data-bs-slide="next">
+            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+            <span class="visually-hidden">Next</span>
+        </button>
+    </div>      
+</div>
+  
+  
+  
+  
+
+
+    <!-- 카테고리별 베스트 목록 -->
+    <div id="cateBest">
+
+        <span class="underline"></span>
+        <span class="mainTitle"> 카테고리별 BEST </span>
+        <span class="underline"></span>
+
+        <div class="w3-border" style="width: 75%; margin-top: 50px; margin-bottom: 300px;">
+            <div class="w3-bar">
+                <button
+                    class="btnTap w3-bar-item w3-button w3-padding-16"
+                    onclick="openTap(event,'tapContent1')">경제/경영</button>
+                <button
+                    class="btnTap w3-bar-item w3-button w3-padding-16"
+                    onclick="openTap(event,'tapContent2')">인문</button>
+                <button
+                    class="btnTap w3-bar-item w3-button w3-padding-16"
+                    onclick="openTap(event,'tapContent3')">소설</button>
+                <button
+                    class="btnTap w3-bar-item w3-button w3-padding-16"
+                    onclick="openTap(event,'tapContent4')">시/에세이</button>
+                <button
+                    class="btnTap w3-bar-item w3-button w3-padding-16"
+                    onclick="openTap(event,'tapContent5')">자기계발</button>
+            </div>
+
+            <div id="tapContent1" class="tapContent w3-container w3-animate-opacity">
+                <h2>경제/경영</h2>
+                <div class="w3-row w3-padding-16" style="margin-top:40px; height: 520px;">
+                    <div class="best w3-quarter">
+                        <a th:href="@{ /detail(id= ${ economyScoreList[0].getBookId } ) }">
+                        <img th:src="${ economyScoreList[0].getBookImage }" th:alt="${ economyScoreList[0].getBookName }">
+                        <br/><span th:text="${ economyScoreList[0].getBookName}"></span></a>
+                    </div>
+                    
+                    <div class="best w3-quarter">
+                        <a th:href="@{ /detail(id= ${ economyScoreList[1].getBookId } ) }">
+                        <img th:src="${ economyScoreList[1].getBookImage }" th:alt="${ economyScoreList[1].getBookName }">
+                        <br/><span th:text="${ economyScoreList[1].getBookName}"></span></a>
+                      </div>
+                    
+                    <div class="best w3-quarter">
+                        <a th:href="@{ /detail(id= ${ economyScoreList[2].getBookId } ) }">
+                        <img th:src="${ economyScoreList[2].getBookImage }" th:alt="${ economyScoreList[2].getBookName }">
+                        <br/><span th:text="${ economyScoreList[2].getBookName}"></span></a>
+                   </div>
+                   
+                   <div class="best w3-quarter">
+                        <a th:href="@{ /detail(id= ${ economyScoreList[3].getBookId } ) }">
+                        <img th:src="${ economyScoreList[3].getBookImage }" th:alt="${ economyScoreList[3].getBookName }">
+                        <br/><span th:text="${ economyScoreList[3].getBookName}"></span></a>
+                   </div>
+                  </div>
+            </div>
+
+            <div id="tapContent2" class="tapContent w3-container w3-animate-opacity">
+                <h2>인문</h2>
+                <div class="w3-row w3-padding-16" style="margin-top:40px; height: 520px;">
+                    <div class="best w3-quarter">
+                        <a th:href="@{ /detail(id= ${ humanitiesScoreList[0].getBookId } ) }">
+                        <img th:src="${ humanitiesScoreList[0].getBookImage }" th:alt="${ humanitiesScoreList[0].getBookName }">
+                        <br/><span th:text="${ humanitiesScoreList[0].getBookName}"></span></a>
+                    </div>
+                    <div class="best w3-quarter">
+                        <a th:href="@{ /detail(id= ${ humanitiesScoreList[1].getBookId } ) }">
+                        <img th:src="${ humanitiesScoreList[1].getBookImage }" th:alt="${ humanitiesScoreList[1].getBookName }">
+                        <br/><span th:text="${ humanitiesScoreList[1].getBookName}"></span></a>
+                    </div>
+                    <div class="best w3-quarter">
+                        <a th:href="@{ /detail(id= ${ humanitiesScoreList[2].getBookId } ) }">
+                        <img th:src="${ humanitiesScoreList[2].getBookImage }" th:alt="${ humanitiesScoreList[2].getBookName }">
+                        <br/><span th:text="${ humanitiesScoreList[2].getBookName}"></span></a>
+                    </div>
+                    <div class="best w3-quarter">
+                        <a th:href="@{ /detail(id= ${ humanitiesScoreList[3].getBookId } ) }">
+                        <img th:src="${ humanitiesScoreList[3].getBookImage }" th:alt="${ humanitiesScoreList[3].getBookName }">
+                        <br/><span th:text="${ humanitiesScoreList[3].getBookName}"></span></a>
+                    </div>
+                  </div>
+            </div>
+            
+
+            <div id="tapContent3" class="tapContent w3-container w3-animate-opacity">
+                <h2>소설</h2>
+                <div class="w3-row w3-padding-16" style="margin-top:40px; height: 520px;">
+                    <div class="best w3-quarter">
+                        <a th:href="@{ /detail(id= ${ fictionScoreList[0].getBookId } ) }">
+                        <img th:src="${ fictionScoreList[0].getBookImage }" th:alt="${ fictionScoreList[0].getBookName }">
+                        <br/><span th:text="${ fictionScoreList[0].getBookName}"></span></a>
+                    </div>
+                    <div class="best w3-quarter">
+                        <a th:href="@{ /detail(id= ${ fictionScoreList[1].getBookId } ) }">
+                        <img th:src="${ fictionScoreList[1].getBookImage }" th:alt="${ fictionScoreList[1].getBookName }">
+                        <br/><span th:text="${ fictionScoreList[1].getBookName}"></span></a>
+                    </div>
+                    <div class="best w3-quarter">
+                        <a th:href="@{ /detail(id= ${ fictionScoreList[2].getBookId } ) }">
+                        <img th:src="${ fictionScoreList[2].getBookImage }" th:alt="${ fictionScoreList[2].getBookName }">
+                        <br/><span th:text="${ fictionScoreList[2].getBookName}"></span></a>
+                    </div>
+                    <div class="best w3-quarter">
+                        <a th:href="@{ /detail(id= ${ fictionScoreList[3].getBookId } ) }">
+                        <img th:src="${ fictionScoreList[3].getBookImage }" th:alt="${ fictionScoreList[3].getBookName }">
+                        <br/><span th:text="${ fictionScoreList[3].getBookName}"></span></a>
+                    </div>
+                  </div>
+            </div>
+            
+            <div id="tapContent4" class="tapContent w3-container w3-animate-opacity">
+                <h2>시/에세이</h2>
+                <div class="w3-row w3-padding-16" style="margin-top:40px; height: 520px;">
+                    <div class="best w3-quarter">
+                        <a th:href="@{ /detail(id= ${ essayScoreList[0].getBookId } ) }">
+                        <img th:src="${ essayScoreList[0].getBookImage }" th:alt="${ essayScoreList[0].getBookName }">
+                        <br/><span th:text="${ essayScoreList[0].getBookName}"></span></a>
+                    </div>
+                    <div class="best w3-quarter">
+                        <a th:href="@{ /detail(id= ${ essayScoreList[1].getBookId } ) }">
+                        <img th:src="${ essayScoreList[1].getBookImage }" th:alt="${ essayScoreList[1].getBookName }">
+                        <br/><span th:text="${ essayScoreList[1].getBookName}"></span></a>
+                    </div>
+                    <div class="best w3-quarter">
+                        <a th:href="@{ /detail(id= ${ essayScoreList[2].getBookId } ) }">
+                        <img th:src="${ essayScoreList[2].getBookImage }" th:alt="${ essayScoreList[2].getBookName }">
+                        <br/><span th:text="${ essayScoreList[2].getBookName}"></span></a>
+                    </div>
+                    <div class="best w3-quarter">
+                        <a th:href="@{ /detail(id= ${ essayScoreList[3].getBookId } ) }">
+                        <img th:src="${ essayScoreList[3].getBookImage }" th:alt="${ essayScoreList[3].getBookName }">
+                        <br/><span th:text="${ essayScoreList[3].getBookName}"></span></a>
+                    </div>
+                  </div>
+            </div>
+            
+            <div id="tapContent5" class="tapContent w3-container w3-animate-opacity">
+                <h2>자기계발</h2>
+                <div class="w3-row w3-padding-16" style="margin-top:40px; height: 520px;">
+                    <div class="best w3-quarter">
+                        <a th:href="@{ /detail(id= ${ selpHelpScoreList[0].getBookId } ) }">
+                        <img th:src="${ selpHelpScoreList[0].getBookImage }" th:alt="${ selpHelpScoreList[0].getBookName }">
+                        <br/><span th:text="${ selpHelpScoreList[0].getBookName}"></span></a>
+                    </div>
+                    <div class="best w3-quarter">
+                        <a th:href="@{ /detail(id= ${ selpHelpScoreList[1].getBookId } ) }">
+                        <img th:src="${ selpHelpScoreList[1].getBookImage }" th:alt="${ selpHelpScoreList[1].getBookName }">
+                        <br/><span th:text="${ selpHelpScoreList[1].getBookName}"></span></a>
+                    </div>
+                    <div class="best w3-quarter">
+                        <a th:href="@{ /detail(id= ${ selpHelpScoreList[2].getBookId } ) }">
+                        <img th:src="${ selpHelpScoreList[2].getBookImage }" th:alt="${ selpHelpScoreList[2].getBookName }">
+                        <br/><span th:text="${ selpHelpScoreList[2].getBookName}"></span></a>
+                    </div>
+                    <div class="best w3-quarter">
+                        <a th:href="@{ /detail(id= ${ selpHelpScoreList[3].getBookId } ) }">
+                        <img th:src="${ selpHelpScoreList[3].getBookImage }" th:alt="${ selpHelpScoreList[3].getBookName }">
+                        <br/><span th:text="${ selpHelpScoreList[3].getBookName}"></span></a>
+                    </div>
+                  </div>
+            </div>
+            
+        </div>
+    </div>
+    
+    
+            
+    
+            
+        
+        
+   
+
+
+
+        <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <script
+            src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.bundle.min.js"
+            integrity="sha384-OERcA2EqjJCMA+/3y+gxIOqMEjwtxJY7qPCqsdltbNJuaOe923+mo//f6V8Qbsw3"
+            crossorigin="anonymous">
+    </script>
+    
+    <!-- JQuery -->
+        <script src="https://code.jquery.com/jquery-3.6.1.min.js"
+            integrity="sha256-o88AwQnZB+VDvE9tvIXrMQaPlFFSUTR+nldQm1LuPXQ="
+            crossorigin="anonymous"></script>
+    
+    <!-- Home에 사용되는 JavaScript -->
+    <script th:src="@{ /js/home.js }"></script>
+    
+    </body>
+
+<!-- 
+    <script
+        src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-kenU1KFdBIe4zVF0s0G1M5b4hcpxyD9F7jL+jjXkk+Q2h455rYXK/7HAuoJl+0I4"
+        crossorigin="anonymous"></script>
+         -->
+        
+<!-- 
+<script type='text/javascript'
+    src='http://tkfile.yes24.com/New/Js/jquery-3.4.1_min.js'></script>
+<script type='text/javascript'
+    src='http://tkfile.yes24.com/New/Js/swiper_min.js'></script>
+<script type='text/javascript'
+    src='http://tkfile.yes24.com/New/Js/Main.js?v=916'></script> -->
+
+    <!--  
+    <script layout:fragment="script" th:inline="javascript">
+    console.log('Thymeleaf 레이아웃 기능');
+    </script>
+    -->
+
+</div>
+</html>

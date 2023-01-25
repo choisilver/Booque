@@ -1,0 +1,437 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+    xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+    layout:decorate="~{ layout/layout }">
+
+<div layout:fragment="content">
+
+<head>
+    <meta charset="UTF-8">
+    <title>My Page</title>
+    
+    <link
+        href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css"
+        rel="stylesheet"
+        integrity="sha384-Zenh87qX5JnK2Jl0vWa8Ck2rdkQ2Bzep5IDxbcnCeuOxjzrPF/et3URy9Bv1WTRi"
+        crossorigin="anonymous" />
+        
+    <style>
+        * {
+            font-family: 'NanumBarunGothic';        
+        }
+    </style>
+</head>
+<body>
+
+    <!-- 상단에 프로필 넣고자(like 교보문고) -->
+    <div class="w-75 container">
+
+    <div class="row"> <!-- 메인 데이터 -->
+    
+        <div class="col-2 m-4 p-2" style="height:800px;">
+                <div class="card" align="left" style="margin:20px; width: 200px; "><!-- 프로필  -->
+
+                    <div>
+                         <img th:src="${ user.userImage}"  alt="..."  width="200px" height="280px" class="img-fluid rounded-start">
+                    </div>
+                    <form name="userimageModify" id="userimageModify" enctype="multipart/form-data"  action="/myPage/file" method="post">
+                         <label for="filePath" class="btn btn-light">
+                            <span>프로필</span>
+                            <img style="width: 15px; height: 15px;" alt="" th:src="@{ https://cdn-icons-png.flaticon.com/512/738/738853.png }">
+                         </label >
+                         <input type="file" id="filePath" name="filePath"  style="display: none;" accept="image/jpg, image/png" > 
+                         
+                         <label for="imageModify" class="btn btn-light">
+                            <img style="width: 15px; height: 15px;" alt="" th:src="@{ https://cdn-icons-png.flaticon.com/512/738/738853.png }">
+                         </label >
+                         <input  type="button" id="imageModify" name="imageModify" style="display: none;"  > 
+
+                    </form>
+                    
+              <a class="btn btn-outline-secondary" th:href="@{ /post/list?postWriter={postWriter} (postWriter = ${ user.username })}">내 블로그
+              <img style="width: 18px" alt="" src="https://cdn-icons-png.flaticon.com/512/609/609803.png">  </a>
+          
+                    <form id="profileM">
+                             
+                             <br/>
+                             <label class="btn" >아이디  
+                             </label> 
+                             <label >[[${ user.username }]] <img style=" width: 20px;" alt="" src="https://cdn-icons-png.flaticon.com/512/8146/8146767.png"></label>
+                             
+                             <label class="btn">닉네임</label> <input name="nickName"  class="btn btn-secondary"  th:value="${ user.nickName }"  >
+                             <label class="btn">이메일</label> <input name="email"  class="btn btn-secondary"  th:value="${ user.email }"  >
+                             <label class="btn">번호</label> <input name="phone" class="btn btn-secondary"  th:value="${ user.phone }"  >
+                    </form>
+                    <button id="modify" class="btn btn"> <img style="width: 15px; height: 15px;" alt="" th:src="@{ https://cdn-icons-png.flaticon.com/512/738/738853.png }"> </button>
+                    <button id="modify" class="btn btn-outline-danger"><span>아이디/비밀번호</span> <img style="width: 15px; height: 15px;" alt="" th:src="@{ https://cdn-icons-png.flaticon.com/512/738/738853.png }"> </button>
+                    
+            </div><!-- 프로필 끝 -->   
+            
+            
+            <h4 class="my-2">나의 쇼핑정보</h4>
+            <ul class="list-group list-group-flush">
+                <li class="list-group-item text-secondary">주문내역조회</li>
+                <li class="list-group-item text-secondary">반품내역</li>
+                <li class="list-group-item text-secondary">책 리뷰</li>
+                <br/><br/>
+            </ul>
+            <h4 class="my-2">나의 계정설정</h4>
+            <ul class="list-group list-group-flush">
+                <li class="list-group-item text-secondary">회원정보수정</li>
+                <li class="list-group-item text-secondary">회원등급</li>
+                <li class="list-group-item text-secondary">포인트조회</li>
+                <br/><br/>
+            </ul>
+            <h4 class="my-2">고객센터</h4>
+            <ul class="list-group list-group-flush">
+                <li class="list-group-item text-secondary">1대1문의</li>
+                <li class="list-group-item text-secondary">공지사항</li>
+                <br/><br/>
+            </ul>
+            
+            
+            
+            
+                   
+        </div> <!-- col end -->
+
+
+        <div class="col-8 container">
+
+
+            <h4>최근 주문 내역</h4>
+            <table class="table">
+                <thead>
+                    <tr class="border-top border-4" >
+                        <th> 주문날짜</th>
+                        <th>주문상세</th>
+                        <th>주문번호</th>
+                        <th>결제금액</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr id="bookTotal"  th:each=" order : ${ orderList }">
+                        <td class="align-middle" style="text-align: center;">
+                            <div class="container">
+                            <ul style="list-style: none;">
+                                <li>
+                                    <a th:href="@{ /detail?id={bookId} (bookId = ${ order.book.bookId })}" th:bookId="${order.book.bookId}" ><img class="mb-2" th:src="${ order.book.bookImage }" 
+                                    style="width: 100px; height: 130px;" ></a>
+                                </li>  
+                                <li><small><span id="orderDate" th:text="${ order.orderDate}" style="color:gray;"></span></small></li>
+                            </ul>
+                            </div>
+                        </td>
+                        <td class="align-middle">
+                            <ul style=" list-style: none;">
+                                <li>
+                                    <small class="d-inline-flex px-2 my-1 border rounded text-secondary">
+                                    <span  th:text="${ order.book.bookgroup }"></span><span> / </span><span th:text="${ order.book.category }"></span>
+                                    </small>
+                                </li>
+                                <li>
+                                    <span class="fw-bold" th:text="${ order.book.bookName}"></span>
+                                </li>
+                                <li>
+                                    <span th:text="${ order.book.author}"></span>
+                                    <span></span>
+                                </li>
+                                <li> </li>
+                                <li>
+                                    <span id="score" th:text="${ order.book.bookScore }/10"></span>
+                                    <span id="scoreS" class="text-muted" >  ([[${ order.book.bookScore/10.0 }]])</span>
+                                </li>
+                                <li>
+                                    <span id="bookPrice" th:text="${order.total}"></span>
+                                    <span id="count">[[${ order.orderBookCount }]]</span><span>권</span> <br>
+                                
+                                </li>
+                                
+                            </ul>
+ 
+                        </td>
+                        
+                        <td class="align-middle">
+                            <ul style=" list-style: none;">
+                                <li>                              
+                                <small class="d-inline-flex px-2 my-1 border rounded text-secondary">
+                                        <span >주문번호</span><br/></small>
+                                    <div  class="text-muted" th:text="${order.orderNo }" ></div>
+                                </li>
+                                <li>
+                                    <span id="to" th:text="${order.total}"></span><span>원 결제</span>
+                                </li>
+                            </ul>
+                        </td>
+                        <td class="align-middle">
+                            <th:block th:if="${ order.status == 1}">
+                                <span class="fw-bold">배송 대기중</span><br/>
+                                <span class="text-muted">결제일로 부터</span> <br/>
+                                <span class="text-muted">2~3일 소요 됩니다.</span>
+                            </th:block>
+                            <th:block th:if="${ order.status == 0}">
+                                <span class="btn fw-bold">배송 완료</span>
+                            </th:block>
+                            <br>
+                            <div class="col-2 my-2">
+                            <a th:href="@{ /post/create?id={bookId} (bookId = ${ order.book.bookId })}"><input type="button" class="btn btn-outline-dark" value="리뷰 작성"></a>        
+                            </div>
+                        </td>
+    
+                    </tr>
+                </tbody>
+            </table>
+
+
+        
+        </div> <!-- col end -->
+
+
+    </div> <!-- (row) 메인 데이터 end -->
+    
+    <div class="row"> <!-- wish row -->
+    <div class="col-2 m-4 p-2" style="height:500px; visibility : hidden;" >
+                        <h4 class="my-2">나의 쇼핑정보</h4>
+            <ul class="list-group list-group-flush">
+                <li class="list-group-item text-secondary">주문내역조회</li>
+                <li class="list-group-item text-secondary">반품내역</li>
+                <li class="list-group-item text-secondary">책 리뷰</li>
+                <br/><br/>
+            </ul>
+            <h4 class="my-2">나의 계정설정</h4>
+            <ul class="list-group list-group-flush">
+                <li class="list-group-item text-secondary">회원정보수정</li>
+                <li class="list-group-item text-secondary">회원등급</li>
+                <li class="list-group-item text-secondary">포인트조회</li>
+                <br/><br/>
+            </ul>
+            <h4 class="my-2">고객센터</h4>
+            <ul class="list-group list-group-flush">
+                <li class="list-group-item text-secondary">1대1문의</li>
+                <li class="list-group-item text-secondary">공지사항</li>
+                <br/><br/>
+            </ul>
+    
+    
+    
+    </div>
+    
+    
+    
+    <br/><br/>
+    
+    
+    
+    
+    
+    <div class="col-8 container">
+        <div th:if="${ wishBookInfo }">
+        <span class="h4" th:text="${ user.nickName }"></span><span>님의 <img  style="width: 25px;" alt="" src="images/likeFull.png"> 목록</span>
+        <div class="w-100 ">
+            <div class="row container">
+                <div class="col" th:each="bookWishDto : ${ wishBookInfo }">
+                    <div class="card my-2" style="width: 14rem; height:32rem">
+                        <a th:href="@{ /detail(id=${ bookWishDto.getBookId }) }">
+                            <img th:src="${ bookWishDto.getBookImage }" class="card-img-top" style="height:22rem">
+                        </a>
+                        <div class="card-body">
+                            <div class="card-text">
+                                <div><small class="d-inline-flex px-2 my-1 border rounded text-secondary">
+                                     <span th:text="${ bookWishDto.getBookgroup }"></span><span> / </span><span th:text="${ bookWishDto.getCategory }"></span>
+                                     </small>
+                                </div>
+                                <span class="fw-bold" th:text="${ bookWishDto.getBookName }"></span><br/>
+                                <span th:text="${ bookWishDto.getAuthor }"></span><br/>
+                                <span th:text="|${#numbers.formatInteger(bookWishDto.getPrices, 0, 'COMMA')}원|"></span>
+                                <br>
+                                <span id="bookWishId" style="display: none;">[[${ bookWishDto.bookWishId }]]</span>
+                        <form action="/myPage/delete" method="post">
+                            <input name="bookWishId" style="display: none;" th:value="${ bookWishDto.bookWishId }" >
+                            <label for="btnDeleteW"  class="btn btn-danger btn-sm" style="float: right;">
+                                <img  style="width: 15px;" alt="" src="images/likeEmpty.png"  > <span>삭제</span>
+                            </label>
+                            
+                            <input id="btnDeleteW" type="submit" style="display: none;">
+                        </form>
+                            </div>
+                        </div> <!-- card body end -->
+                    </div> <!-- card end -->
+                </div> <!-- col end -->
+            </div> <!-- row end -->
+        </div>
+    
+    </div>
+    
+    <br/><br/>
+    
+     <!-- <div class="col-8 container"> -->
+                    <h4>작성된 한줄평~!</h4>
+            <table class="table">
+                <thead>
+                    <tr class="border-top border-4">
+                        <th>책이름(책으로 넘어가기)</th>
+                        <th>내용(좋아요)</th>
+                        <th>작성날짜 / 수정날짜</th>
+                        <th>수정/삭제</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr th:each=" comment : ${ commentList }">
+                        <td class="align-middle">
+                        <a th:href="@{ /detail?id={bookId} (bookId = ${ comment.bookId})}" th:bookId="${ comment.bookId}" ><img class="mx-2" style="width: 70px; height: 100px;" alt="" th:src="${ comment.bookImage }"></a> 
+                        <span class="h6" style="font-weight: bold;" th:text="${ comment.bookName }"></span>
+                        </td>
+                        <td class="align-middle">
+                            <p th:text="${ comment.commentText }"></p>
+                            <img style="width: 15px" alt="" src="images/likeFull.png">    <span th:text="${ comment.likes }"></span>
+                        </td>
+                        <td class="align-middle">
+                            <span id="commentDate" th:text="${ comment.createdTime }" ></span>
+                            <br>
+                            <span id="commentDate" th:text="${ comment.modifiedTime }" ></span>
+                        </td>
+                        <td class="align-middle">
+                            <button id="btnDelete" class="btn btn-outline-success">수정</button>
+                            <button id="btnDelete" class="btn btn-outline-danger">삭제</button>
+                        </td>
+                        
+                    </tr>
+                </tbody>
+            </table>
+            <!-- </div> -->
+    
+    </div>  
+    
+   
+      
+</div> <!-- wish row -->
+    
+    
+</div>
+    
+      
+    
+    
+    
+    
+    
+
+    
+    
+    
+
+    
+
+
+
+    <script type="text/javascript">
+    
+    
+    
+    
+    
+    
+    
+    
+    const b = document.querySelectorAll('#bookTotal')
+    b.forEach(e => {
+        const total = e.querySelector('#to');
+        const price = e.querySelector('#bookPrice');  // 26000
+        const count = e.querySelector('#count').innerText;
+        console.log(count)
+    //  e.innerText = parseInt(book).toLocaleString('ko-KR');
+        price.innerText = (price.innerText/count).toLocaleString('ko-KR');
+        total.innerText = parseInt(total.innerText).toLocaleString('ko-KR');
+    })
+    
+    
+    
+    
+    const date = document.querySelectorAll('#orderDate');
+    date.forEach(e => {
+        const dd = e.innerText;
+        e.innerText = dd.substr(0,10);
+            
+    })
+    const dateC = document.querySelectorAll('#commentDate');
+    dateC.forEach(e => {
+        let dateComment = new Date(e.innerText);
+        console.log(dateComment)
+        let dateM = dateComment.getMonth()+1;
+        let dateD = dateComment.getDate()+1;
+        let dateH = dateComment.getHours();
+        let dateMi = dateComment.getMinutes();
+        
+        const dd =dateM+'월'+dateD+'일  '+dateH+'시'+dateMi+'분' 
+        
+        e.innerText = dd;
+            
+    })
+    
+    const sc = document.querySelectorAll('#score');
+    sc.forEach( e=> {
+        let s ='';
+        let a = parseInt(e.innerText)
+        for(let i=0; i<a; i++){
+               s += '★';
+            
+        }
+        for(let i=0; i<5-a; i++){
+               s += '☆';
+            
+        }
+        e.innerText = s;
+        
+    })
+    
+    
+    
+    
+    
+    
+    
+    
+    const formFile = document.querySelector('#userimageModify')
+    const btnModifyFile = document.querySelector('#imageModify')
+    btnModifyFile.addEventListener('click', e => {
+        const result = confirm('사진 변경?')
+        if(result){
+            formFile.action='/myPage/file';
+            formFile.method='post';
+            formFile.submit();
+            
+        }
+        
+    })
+    
+    
+    
+    
+    
+    
+    const formP = document.querySelector('#profileM')
+    const btnModify = document.querySelector('#modify')
+    
+    btnModify.addEventListener('click', e => {
+        const result = confirm('회원정보 변경?')
+        if(result){
+            formP.action='/myPage/modify';
+            formP.method='post';
+            formP.submit();
+            
+        }
+        
+        
+    })
+    
+
+    
+    
+    
+    </script>
+    
+
+    
+</body> 
+</div>
+</html>

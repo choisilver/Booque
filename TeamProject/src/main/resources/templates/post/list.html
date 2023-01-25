@@ -1,0 +1,282 @@
+<!DOCTYPE html>
+
+<html xmlns:th="http://www.thymeleaf.org"
+    xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+    layout:decorate="~{ layout/layout }">
+<div layout:fragment="content" align ="center">
+<head>
+<meta charset="UTF-8">
+
+<link
+    href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css"
+    rel="stylesheet"
+    integrity="sha384-Zenh87qX5JnK2Jl0vWa8Ck2rdkQ2Bzep5IDxbcnCeuOxjzrPF/et3URy9Bv1WTRi"
+    crossorigin="anonymous">
+
+<!-- include libraries(jQuery, bootstrap) -->
+<link
+    href="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css"
+    rel="stylesheet">
+<script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+<script
+    src="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+<!-- include summernote css/js -->
+   <link
+    href="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote.min.css"
+    rel="stylesheet">
+   <script
+    src="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote.min.js"></script>
+ 
+ <style>  
+    @keyframes  blink-effect {
+        50% {
+            opacity: 0;
+         }
+       }
+
+   .blink {
+        animation: blink-effect 1s step-end infinite;
+        animation-timing-function: step-start, step-end;
+     }
+     
+    .postContent {
+       width: 6rem;
+       text-overflow: ellipsis;
+       overflow: hidden;
+       word-break: break-word;
+        
+       display: -webkit-box;
+       -webkit-line-clamp: 5;
+       -webkit-box-orient: vertical
+    }
+     
+  </style> 
+  
+</head>
+    
+<!--/* layout/basic-layout.html 파일의 "content" 레이아웃 fragment를 채워 줄 내용 */-->
+<div class="w-75 container"><!-- 메인 블록 사이즈 조절 -->
+
+<div class="row"><!-- main block start -->
+
+<div class="col-2"><!-- 프로필 블록 start  왼쪽 --> 
+    
+    <div class="card mx-2 my-2" style="width: 20rem; height:auto;">    
+        <a th:href="@{ /myPage }"> <!-- 프로필 사진 클릭하면 마이페이지로 이동 -->
+           <img th:src="${ user.userImage }" width="220px" height="280" class="img-fluid rounded-start">
+        </a>       
+         
+         
+        <div class="card-body" style="text-align: left;">
+                <div class="border-bottom mb-2 border-dark">
+                    <span class="card-title" th:text="${ '&nbsp;&nbsp;'+ user.nickName }" style="font-weight: bold;"></span>
+                    <span style="font-size: 16px;" th:text="${ '('+ user.username +')' }"></span>
+                </div>
+                <div class="mb-4">
+                    <span th:text="${user.postIntro}" ></span>
+                </div>
+                <!-- -<span style="color:gray;">전체 리뷰수</span>
+                <span class="h4"><strong style="color:red;">리뷰수 합쳐야함</strong></span> -->
+    
+            
+            <br/><br/>
+            <div class="fw-bold" style="text-align: left;">요즘 뜨는 포스트 </div>
+            <div class="row my-2">
+                <img  style="width:42px; height:44px" alt="" th:src="@{ https://contents.kyobobook.co.kr/sih/fit-in/458x0/pdt/9791192300245.jpg}">
+                <div class="col" style="text-align: left;">
+                    <a>짜라투스트라는 도대체..</a><br/>
+                    <small style="color:gray;">댓글 19개</small>
+                </div>
+            </div>
+            <div class="row my-2">
+                <img  style="width:40px; height:44px" alt="" th:src="@{https://contents.kyobobook.co.kr/sih/fit-in/458x0/pdt/9791191114102.jpg}">
+                <div class="col" style="text-align: left;">
+                    <a>김영하가 다다다라는..</a><br/>
+                    <small style="color:gray;">댓글 15개</small>
+                </div>
+            </div>
+            <div class="row my-2">
+                <img  style="width:40px; height:44px" alt="" th:src="@{ https://contents.kyobobook.co.kr/sih/fit-in/458x0/pdt/9788954680004.jpg }">
+                <div class="col" style="text-align: left;">
+                    <a>오늘도 화이팅이란</a><br/>
+                    <small style="color:gray;">댓글 159개</small>
+                </div>
+            </div>
+            <div class="row my-2">
+                <img  style="width:40px; height:44px" alt="" th:src="@{https://contents.kyobobook.co.kr/sih/fit-in/458x0/pdt/9788959897094.jpg}">
+                <div class="col" style="text-align: left;">
+                    <a>트렌드를 따라가려면..</a><br/>
+                    <small style="color:gray;">댓글 9개</small>
+                </div>
+            </div>
+
+            
+        </div><!-- 유저사진 밑에 카드 형식으로 넣음 -->
+    
+    </div><!-- 프로필 블록 end -->
+</div>
+    
+<div class="col-10">
+    
+    <!-- 최근에 본 책 간단 정보 -->
+    
+     <!-- 예진: 작성한 리뷰가 있을 때만 보여줌. -->
+    <div th:if="${ !#lists.isEmpty(list) }">
+    <p><span class="h4" th:text="${ user.nickName }"></span>님은 최근에 이 책들의 리뷰를 작성했어요!!</p> 
+    </div>
+    
+    <div class="w-100 rounded"><!-- 최근에 본 책 블록 start -->
+        <div class="row justify-content-start">
+            <div class="col" th:each="book : ${ books }">
+                <div class="card my-2" style="width: 20rem; height:45rem">
+                    <a th:href="@{ /detail?id={bookId} (bookId = ${ book.bookId })}" th:bookId="${book.bookId}" th:username="${#authentication.name}" onclick="viewHitUp(this.getAttribute('bookId'),this.getAttribute('username'));">
+                        <img th:src="${ book.bookImage }" class="card-img-top" style="height:27rem" />
+                    </a>
+                    <div class="card-body" style="text-align: left;">
+                        <div class="card-text">
+                            <div class="my-2">
+                                <small class="d-inline-flex px-2 border border-1 rounded text-secondary">
+                                    <span th:text="${ book.bookgroup }"></span><span> / </span><span th:text="${ book.category }"></span>
+                                </small>
+                            </div>
+                            <div class="h4" th:text="${ book.bookName }"></div>
+                            <div th:text="${ book.author }"></div>
+                            <div th:text="${ book.publisher }"></div>
+                            <div th:text="|${#numbers.formatInteger(book.prices, 0, 'COMMA')}원|"></div>
+                        </div>
+                    </div> <!-- card body end -->
+                </div> <!-- card end -->
+            </div> <!-- col end -->
+        </div> <!-- row end -->
+    </div><!-- 최근에 본 책 블록 end -->
+    
+    
+    <br/>
+    
+ <!-- 예진: 작성한 리뷰가 없을 때.  -->   
+ <div th:if="${ #lists.isEmpty(list) }">작성한 글이 없습니다.<span style="font-weight: bold; font-size: 20px;">첫 리뷰를 작성해보세요!!</span></div>
+ 
+ <!-- 예진: 작성한 리뷰가 있을 때. -->
+ <div th:if="${ !#lists.isEmpty(list) }">
+ 
+    <!-- 사용자 작성 리뷰 리스트(테이블) -->
+    <table class="table">
+    <thead>
+        <tr class="border-bottom border-4 border-dark">
+            <td class="col-9">책 리뷰 목록</td>
+            <td></td>
+        </tr>
+    </thead>
+    <tbody>
+        <tr th:each="post : ${ list }">
+            <td class="py-5" style="cursor: pointer;" th:onclick="|location.href='@{ /post/detail?postId={postId}&bookId={bookId} (postId = ${ post.postId }, bookId = ${ post.bookId } )}'|">
+                <!-- haeun test -->
+                <div>
+                    <span th:text="${ post.postId }"></span>
+                    <strong><a th:href="@{ /post/detail?postId={postId}&bookId={bookId} (postId = ${ post.postId }, bookId = ${ post.bookId } )}" th:text="${ post.title }" th:postId="${post.postId}" th:username="${#authentication.name}" onclick="postHitCountUp(this.getAttribute('postId'), this.getAttribute('username'));"></a></strong>
+                    <!-- 예진:  오늘 작성한 글 new 아이콘 보여주기 -->
+                    <span th:if="${ day } == ${ #temporals.format(post.createdTime, 'dd') }">
+                        <span><img class="blink" src="/images/new.png" width="50" height="50" ></span>
+                    </span>
+                     
+                     <!-- 예진: 댓글 수 10개 이상인 글 hot 아이콘 보여주기 -->
+                    <span th:if="${ post.replyCount } > 9 ">
+                        <span><img class="blink" src="/images/promotional.png" width="50" height="40" ></span>
+                    </span>
+                </div>
+                
+                 
+                <div class="box">
+                <small class="w-100 postContent" id="postContent" th:text="${ post.postContent }"></small>
+                </div>
+                
+                <div>
+                     
+                     <small th:text="${ #temporals.format(post.modifiedTime, 'yyyy-MM-dd HH:mm:ss') }" style="color:gray;"></small>
+                        <!-- 홍찬 -->
+                        <small>조회수 <span style="color:blue; font-weight: bold;" th:text="${post.hit}"></span></small>
+                        <small>댓글수 <span style="color:red; font-weight: bold;"th:text="${ post.replyCount }"></span></small>                     
+                </div>
+            </td>
+            <td style="text-align: center;">
+                <a style="margin-left: 18px;" th:href="@{ /detail?id={bookId} (bookId = ${ post.bookId })}" th:bookId="${post.bookId}" th:username="${#authentication.name}" onclick="viewHitUp(this.getAttribute('bookId'),this.getAttribute('username'));">
+                    <img th:src="${ post.bookImage }" class="img-fluid rounded-start" style="width:15rem">
+                </a>
+            </td>
+       </tr>
+    
+    </tbody>
+    </table>
+    </div>
+    
+    
+    
+</div><!-- col-8 end -->
+
+</div><!-- main block end -->
+
+</div><!-- 메인 블록 end -->
+
+</div><!-- 메인 블록 사이즈 조절 -->
+
+
+
+
+<th:block layout:fragment="script" th:inline="javascript">
+
+
+    
+    <!-- 포스트 글 조회수 증가-->
+    <script>
+    function postHitCountUp(postId, username){
+        axios.get('/postHitCount', {params: {postId : postId, username : username}})
+           .then(response => {
+               console.log(response);
+               return true;
+           })
+           .catch(err =>{
+               console.log(err);
+           });
+    }
+    </script>
+    
+    <script>
+    $('.box').each(function(){
+        var content = $(this).children('#postContent');
+        console.log(content)
+        var content_txt = content.text();
+        var content_txt_short = content_txt.substring(0,1000);
+        
+        content.html(content_txt_short)
+            
+
+    });
+    
+    </script> 
+    
+    <!-- 조회수 증가(책 상세보기) -->
+    <script>
+    function viewHitUp(bookId, username){
+        axios.get('/viewCount', {params: {bookId : bookId, username : username}})
+
+           .then(response => {
+               console.log(response);
+               return true;
+           })
+           .catch(err =>{
+               console.log(err);
+           });
+    }
+    </script>
+    
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <script
+    src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.bundle.min.js"
+    integrity="sha384-OERcA2EqjJCMA+/3y+gxIOqMEjwtxJY7qPCqsdltbNJuaOe923+mo//f6V8Qbsw3"
+    crossorigin="anonymous">
+    </script>
+    
+</th:block>
+
+
+</html>
